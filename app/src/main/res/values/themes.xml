@@ -14,6 +14,7 @@
         <item name="android:textColorPrimary">@color/text_primary</item>
         <item name="android:textColorSecondary">@color/text_secondary</item>
         <item name="materialButtonStyle">@style/Widget.SmartTriviaHub.Button</item>
+        <item name="textInputStyle">@style/Widget.SmartTriviaHub.TextInputLayout</item>
     </style>
 
     <style name="Theme.SmartTriviaHub" parent="Base.Theme.SmartTriviaHub" />
@@ -21,6 +22,19 @@
     <!-- Semua butang: bucu 12dp yang sama dengan kad -->
     <style name="Widget.SmartTriviaHub.Button" parent="Widget.Material3.Button">
         <item name="cornerRadius">12dp</item>
+    </style>
+
+    <!-- Butang sekunder (garis sahaja), bucu sama dengan butang utama -->
+    <style name="Widget.SmartTriviaHub.Button.Outlined" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="cornerRadius">12dp</item>
+    </style>
+
+    <!-- Medan input: bucu 12dp yang sama dengan butang dan kad -->
+    <style name="Widget.SmartTriviaHub.TextInputLayout" parent="Widget.Material3.TextInputLayout.OutlinedBox">
+        <item name="boxCornerRadiusTopStart">12dp</item>
+        <item name="boxCornerRadiusTopEnd">12dp</item>
+        <item name="boxCornerRadiusBottomStart">12dp</item>
+        <item name="boxCornerRadiusBottomEnd">12dp</item>
     </style>
 
     <!-- Butang pilihan jawapan: latar putih + garis biru. Java tukar backgroundTint

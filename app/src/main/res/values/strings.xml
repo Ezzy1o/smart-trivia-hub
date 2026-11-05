@@ -7,6 +7,9 @@
     <string name="hint_name">Nama penuh</string>
     <string name="hint_student_id">ID pelajar</string>
     <string name="hint_select_program">Pilih program</string>
+    <string name="label_program">Program</string>
+    <string name="label_category">Kategori soalan</string>
+    <string name="label_difficulty">Tahap kesukaran</string>
     <string name="difficulty_easy">Mudah</string>
     <string name="difficulty_medium">Sederhana</string>
     <string name="difficulty_hard">Sukar</string>

@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Landscape: dua lajur. Kiri = ringkasan + butang (dipusatkan menegak dengan
+         vertical chain "packed"). Kanan = breakdown setinggi skrin, boleh scroll.
+         Sebabnya: dalam satu lajur, ringkasan makan hampir semua ketinggian skrin pendek
+         dan breakdown tinggal beberapa baris sahaja.
+         ID mesti sama dengan layout/activity_result.xml. -->
+    <!-- Jidar 16dp diletakkan pada kontena DALAM, bukan root: ResultActivity memanggil
+         setPadding() pada root untuk inset bar sistem dan itu menggantikan padding root. -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ResultActivity">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="16dp">
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline_split"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.4" />
+
+            <TextView
+                android:id="@+id/tv_greeting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?attr/textAppearanceTitleLarge"
+                android:textColor="@color/text_primary"
+                app:layout_constraintBottom_toTopOf="@id/tv_percentage"
+                app:layout_constraintEnd_toStartOf="@id/guideline_split"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed"
+                tools:text="Tahniah, Ali!" />
+
+            <TextView
+                android:id="@+id/tv_percentage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textAppearance="?attr/textAppearanceDisplayLarge"
+                android:textColor="@color/primary"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@id/tv_performance_label"
+                app:layout_constraintEnd_toStartOf="@id/guideline_split"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_greeting"
+                tools:text="80%" />
+
+            <TextView
+                android:id="@+id/tv_performance_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?attr/textAppearanceTitleLarge"
+                android:textColor="@color/accent"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@id/tv_correct_count"
+                app:layout_constraintEnd_toStartOf="@id/guideline_split"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_percentage"
+                tools:text="Cemerlang" />
+
+            <TextView
+                android:id="@+id/tv_correct_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:textAppearance="?attr/textAppearanceTitleMedium"
+                android:textColor="@color/correct"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@id/btn_try_again"
+                app:layout_constraintEnd_toStartOf="@id/tv_wrong_count"
+                app:layout_constraintHorizontal_chainStyle="spread"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_performance_label"
+                tools:text="Betul: 8" />
+
+            <TextView
+                android:id="@+id/tv_wrong_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?attr/textAppearanceTitleMedium"
+                android:textColor="@color/wrong"
+                android:textStyle="bold"
+                app:layout_constraintBaseline_toBaselineOf="@id/tv_correct_count"
+                app:layout_constraintEnd_toStartOf="@id/guideline_split"
+                app:layout_constraintStart_toEndOf="@id/tv_correct_count"
+                tools:text="Salah: 2" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_try_again"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="4dp"
+                android:minHeight="56dp"
+                android:text="@string/btn_try_again"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/btn_restart"
+                app:layout_constraintHorizontal_chainStyle="spread"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_correct_count" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_restart"
+                style="@style/Widget.SmartTriviaHub.Button.Outlined"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:minHeight="56dp"
+                android:text="@string/btn_restart"
+                app:layout_constraintBottom_toBottomOf="@id/btn_try_again"
+                app:layout_constraintEnd_toStartOf="@id/guideline_split"
+                app:layout_constraintStart_toEndOf="@id/btn_try_again"
+                app:layout_constraintTop_toTopOf="@id/btn_try_again" />
+
+            <ScrollView
+                android:id="@+id/scroll_breakdown"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/guideline_split"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <LinearLayout
+                    android:id="@+id/layout_breakdown"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
+            </ScrollView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -3,15 +3,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- Seluruh borang dalam ScrollView supaya boleh di-scroll bila skrin pendek (landscape). -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
         tools:context=".MainActivity">
 
+        <!-- Lajur borang. Mendatar: lebar dihadkan 560dp + layout_gravity="center_horizontal".
+             Menegak: fillViewport meregangkan lajur setinggi skrin, dan vertical chain
+             "packed" (tv_app_title ... btn_start) memusatkan borang bila ia pendek.
+             Bila borang lebih tinggi daripada skrin, ia bermula dari atas dan boleh di-scroll. -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:maxWidth="560dp"
             android:padding="16dp">
 
             <TextView
@@ -19,7 +26,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/app_title"
-                android:textSize="24sp"
+                android:textAppearance="?attr/textAppearanceHeadlineMedium"
+                android:textColor="@color/primary"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@id/tv_subtitle"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -31,7 +40,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:gravity="center"
                 android:text="@string/app_subtitle"
+                android:textAppearance="?attr/textAppearanceBodyLarge"
+                android:textColor="@color/text_secondary"
                 app:layout_constraintBottom_toTopOf="@id/til_name"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -41,7 +53,7 @@
                 android:id="@+id/til_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="24dp"
                 android:hint="@string/hint_name"
                 app:layout_constraintBottom_toTopOf="@id/til_student_id"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -52,7 +64,8 @@
                     android:id="@+id/et_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textPersonName" />
+                    android:imeOptions="actionNext"
+                    android:inputType="textPersonName|textCapWords" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -61,7 +74,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:hint="@string/hint_student_id"
-                app:layout_constraintBottom_toTopOf="@id/spinner_program"
+                app:layout_constraintBottom_toTopOf="@id/tv_label_program"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/til_name">
@@ -70,67 +83,122 @@
                     android:id="@+id/et_student_id"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="text" />
+                    android:imeOptions="actionDone"
+                    android:inputType="textCapCharacters|textNoSuggestions" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <Spinner
-                android:id="@+id/spinner_program"
-                android:layout_width="0dp"
-                android:layout_height="48dp"
-                android:layout_marginTop="8dp"
-                android:entries="@array/programs"
-                app:layout_constraintBottom_toTopOf="@id/spinner_category"
-                app:layout_constraintEnd_toEndOf="parent"
+            <TextView
+                android:id="@+id/tv_label_program"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:labelFor="@id/spinner_program"
+                android:text="@string/label_program"
+                android:textAppearance="?attr/textAppearanceLabelLarge"
+                android:textColor="@color/text_secondary"
+                app:layout_constraintBottom_toTopOf="@id/spinner_program"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/til_student_id" />
 
             <Spinner
-                android:id="@+id/spinner_category"
+                android:id="@+id/spinner_program"
                 android:layout_width="0dp"
-                android:layout_height="48dp"
-                android:layout_marginTop="8dp"
-                android:entries="@array/categories"
-                app:layout_constraintBottom_toTopOf="@id/rg_difficulty"
+                android:layout_height="56dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/bg_spinner"
+                android:entries="@array/programs"
+                android:paddingStart="16dp"
+                android:paddingEnd="48dp"
+                android:popupBackground="@color/surface"
+                app:layout_constraintBottom_toTopOf="@id/tv_label_category"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_label_program" />
+
+            <TextView
+                android:id="@+id/tv_label_category"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:labelFor="@id/spinner_category"
+                android:text="@string/label_category"
+                android:textAppearance="?attr/textAppearanceLabelLarge"
+                android:textColor="@color/text_secondary"
+                app:layout_constraintBottom_toTopOf="@id/spinner_category"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/spinner_program" />
 
-            <RadioGroup
-                android:id="@+id/rg_difficulty"
+            <Spinner
+                android:id="@+id/spinner_category"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/bg_spinner"
+                android:entries="@array/categories"
+                android:paddingStart="16dp"
+                android:paddingEnd="48dp"
+                android:popupBackground="@color/surface"
+                app:layout_constraintBottom_toTopOf="@id/tv_label_difficulty"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_label_category" />
+
+            <TextView
+                android:id="@+id/tv_label_difficulty"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="16dp"
+                android:labelFor="@id/rg_difficulty"
+                android:text="@string/label_difficulty"
+                android:textAppearance="?attr/textAppearanceLabelLarge"
+                android:textColor="@color/text_secondary"
+                app:layout_constraintBottom_toTopOf="@id/rg_difficulty"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/spinner_category" />
+
+            <RadioGroup
+                android:id="@+id/rg_difficulty"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
                 android:checkedButton="@id/rb_medium"
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toTopOf="@id/btn_start"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/spinner_category">
+                app:layout_constraintTop_toBottomOf="@id/tv_label_difficulty">
 
                 <RadioButton
                     android:id="@+id/rb_easy"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:minHeight="48dp"
                     android:text="@string/difficulty_easy" />
 
                 <RadioButton
                     android:id="@+id/rb_medium"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:minHeight="48dp"
                     android:text="@string/difficulty_medium" />
 
                 <RadioButton
                     android:id="@+id/rb_hard"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:minHeight="48dp"
                     android:text="@string/difficulty_hard" />
             </RadioGroup>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_start"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="24dp"
+                android:minHeight="56dp"
                 android:text="@string/btn_start"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
