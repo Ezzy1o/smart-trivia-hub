@@ -31,6 +31,7 @@ public class QuizActivity extends AppCompatActivity {
             return insets;
         });
 
+        // Navigasi sementara untuk uji aliran. Ahli Logik ganti dengan logik kuiz sebenar (prompt L3).
         binding.btnNext.setOnClickListener(v ->
                 startActivity(new Intent(QuizActivity.this, ResultActivity.class)));
     }

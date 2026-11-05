@@ -31,7 +31,8 @@ public class ResultActivity extends AppCompatActivity {
             return insets;
         });
 
-        binding.btnNext.setOnClickListener(v -> {
+        // Navigasi sementara untuk uji aliran. btn_try_again akan diwayar oleh Ahli Logik (prompt L4).
+        binding.btnRestart.setOnClickListener(v -> {
             Intent intent = new Intent(ResultActivity.this, MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);

@@ -2,14 +2,68 @@
     <string name="app_name">SmartTriviaHub</string>
 
     <!-- MainActivity -->
-    <string name="main_title">Registration</string>
-    <string name="btn_start">Start Quiz</string>
+    <string name="app_title">Smart Trivia Hub</string>
+    <string name="app_subtitle">Uji kefahaman anda sebelum peperiksaan</string>
+    <string name="hint_name">Nama penuh</string>
+    <string name="hint_student_id">ID pelajar</string>
+    <string name="difficulty_easy">Mudah</string>
+    <string name="difficulty_medium">Sederhana</string>
+    <string name="difficulty_hard">Sukar</string>
+    <string name="btn_start">Mula Kuiz</string>
 
     <!-- QuizActivity -->
-    <string name="quiz_title">Quiz</string>
-    <string name="btn_finish">Finish</string>
+    <string name="btn_next">Seterusnya</string>
+    <string name="btn_see_result">Lihat Keputusan</string>
+    <string name="btn_retry">Cuba Semula</string>
+    <string name="label_question_counter">Soalan %1$d/%2$d</string>
+    <string name="label_score">Skor: %1$d</string>
+    <string name="msg_correct">Betul! Syabas!</string>
+    <string name="msg_wrong">Salah. Jawapan betul: %1$s</string>
+    <string name="cd_feedback">Ikon maklum balas jawapan</string>
+
+    <!-- Ralat API -->
+    <string name="error_no_internet">Tiada sambungan internet. Sila semak rangkaian anda dan cuba semula.</string>
+    <string name="error_rate_limit">Terlalu banyak permintaan. Tunggu beberapa saat, kemudian cuba semula.</string>
+    <string name="error_not_enough_questions">Tiada cukup soalan untuk gabungan kategori dan tahap kesukaran ini. Cuba tukar tahap kesukaran.</string>
+    <string name="error_generic">Sesuatu tidak kena semasa memuatkan soalan. Sila cuba semula.</string>
+
+    <!-- Validation -->
+    <string name="error_name_empty">Sila masukkan nama anda</string>
+    <string name="error_name_invalid">Nama hanya boleh mengandungi huruf dan ruang</string>
+    <string name="error_id_empty">Sila masukkan ID pelajar</string>
+    <string name="error_id_invalid">ID pelajar tidak sah</string>
 
     <!-- ResultActivity -->
-    <string name="result_title">Result</string>
-    <string name="btn_restart">Restart</string>
+    <string name="label_greeting">Tahniah, %1$s!</string>
+    <string name="label_percentage">%1$d%%</string>
+    <string name="label_correct_count">Betul: %1$d</string>
+    <string name="label_wrong_count">Salah: %1$d</string>
+    <string name="perf_excellent">Cemerlang</string>
+    <string name="perf_good">Baik</string>
+    <string name="perf_needs_revision">Perlu Ulangkaji</string>
+    <string name="btn_try_again">Kuiz Baharu</string>
+    <string name="btn_restart">Mula Semula</string>
+
+    <!-- item_breakdown -->
+    <string name="label_your_answer">Jawapan anda: %1$s</string>
+    <string name="label_correct_answer">Jawapan betul: %1$s</string>
+    <string name="cd_item_status">Status jawapan</string>
+
+    <!-- Senarai untuk Spinner -->
+    <!-- TODO (Ahli UI): ganti 3 entri placeholder di bawah dengan nama program GMI yang sebenar -->
+    <string-array name="programs">
+        <item>Program A (placeholder)</item>
+        <item>Program B (placeholder)</item>
+        <item>Program C (placeholder)</item>
+    </string-array>
+    <!-- Susunan mesti kekal: indeks Spinner dipetakan ke ID kategori Open Trivia DB di Java -->
+    <string-array name="categories">
+        <item>Computers</item>
+        <item>Mathematics</item>
+        <item>Science &amp; Nature</item>
+        <item>General Knowledge</item>
+    </string-array>
+
+    <!-- Java messages -->
+    <!-- Ahli Logik: tambah string baharu di bawah baris ini sahaja, untuk elak konflik merge. -->
 </resources>

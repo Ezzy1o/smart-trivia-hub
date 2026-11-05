@@ -31,7 +31,8 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        binding.btnNext.setOnClickListener(v ->
+        // Navigasi sementara untuk uji aliran. Ahli Logik ganti dengan validation + Bundle (prompt L2).
+        binding.btnStart.setOnClickListener(v ->
                 startActivity(new Intent(MainActivity.this, QuizActivity.class)));
     }
 
