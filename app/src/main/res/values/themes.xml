@@ -1,9 +1,36 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.SmartTriviaHub" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    <!-- Tema asas: Material Components (M3), tanpa ActionBar, mod cerah sahaja
+         supaya kontras warna di colors.xml sentiasa terjamin. -->
+    <style name="Base.Theme.SmartTriviaHub" parent="Theme.Material3.Light.NoActionBar">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="colorOnPrimary">@color/on_primary</item>
+        <item name="colorSecondary">@color/accent</item>
+        <item name="colorOnSecondary">@color/on_primary</item>
+        <item name="colorSurface">@color/surface</item>
+        <item name="colorOnSurface">@color/text_primary</item>
+        <item name="colorOnBackground">@color/text_primary</item>
+        <item name="android:colorBackground">@color/background</item>
+        <item name="android:textColorPrimary">@color/text_primary</item>
+        <item name="android:textColorSecondary">@color/text_secondary</item>
+        <item name="materialButtonStyle">@style/Widget.SmartTriviaHub.Button</item>
     </style>
 
     <style name="Theme.SmartTriviaHub" parent="Base.Theme.SmartTriviaHub" />
+
+    <!-- Semua butang: bucu 12dp yang sama dengan kad -->
+    <style name="Widget.SmartTriviaHub.Button" parent="Widget.Material3.Button">
+        <item name="cornerRadius">12dp</item>
+    </style>
+
+    <!-- Butang pilihan jawapan: latar putih + garis biru. Java tukar backgroundTint
+         kepada correct / wrong selepas user menjawab. -->
+    <style name="Widget.SmartTriviaHub.Button.Option">
+        <item name="backgroundTint">@color/surface</item>
+        <item name="strokeColor">@color/primary</item>
+        <item name="strokeWidth">1dp</item>
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:minHeight">56dp</item>
+    </style>
 </resources>

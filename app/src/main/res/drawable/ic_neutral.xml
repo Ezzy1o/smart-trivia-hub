@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Gelang kelabu dengan garis tengah: belum dijawab -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="24dp"
     android:height="24dp"
     android:viewportWidth="24"
     android:viewportHeight="24">
     <path
-        android:pathData="M12,4a8,8 0,1 0,0 16a8,8 0,1 0,0 -16z"
-        android:strokeWidth="2"
-        android:strokeColor="@color/text_secondary" />
+        android:pathData="M12,3a9,9 0,1 0,0 18a9,9 0,1 0,0 -18z"
+        android:strokeColor="@color/text_secondary"
+        android:strokeWidth="2" />
+    <path
+        android:pathData="M8.5,12h7"
+        android:strokeColor="@color/text_secondary"
+        android:strokeLineCap="round"
+        android:strokeWidth="2" />
 </vector>
