@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">SmartTriviaHub</string>
+
+    <!-- MainActivity -->
+    <string name="main_title">Registration</string>
+    <string name="btn_start">Start Quiz</string>
+
+    <!-- QuizActivity -->
+    <string name="quiz_title">Quiz</string>
+    <string name="btn_finish">Finish</string>
+
+    <!-- ResultActivity -->
+    <string name="result_title">Result</string>
+    <string name="btn_restart">Restart</string>
 </resources>
