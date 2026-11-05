@@ -175,6 +175,9 @@ public class MainActivity extends AppCompatActivity {
         // Explicit Intent: kita namakan kelas sasaran (QuizActivity.class) dengan jelas.
         Intent intent = new Intent(this, QuizActivity.class);
         intent.putExtras(extras);
+        // SINGLE_TOP: jika butang Mula ditekan dua kali dengan pantas, tekanan kedua tidak
+        // membuka QuizActivity kedua (yang akan fetch kali kedua dan terkena rate limit).
+        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(intent);
     }
 

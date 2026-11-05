@@ -251,6 +251,9 @@ public class QuizActivity extends AppCompatActivity {
 
     /** Soalan terakhir dijawab: hantar keputusan ke ResultActivity. */
     private void finishQuiz() {
+        if (isFinishing()) {
+            return;   // butang ditekan dua kali dengan pantas: hanya hantar ke Result sekali
+        }
         Intent intent = new Intent(this, ResultActivity.class);
         intent.putExtra(Constants.EXTRA_SCORE, score);
         intent.putExtra(Constants.EXTRA_TOTAL, questions.size());

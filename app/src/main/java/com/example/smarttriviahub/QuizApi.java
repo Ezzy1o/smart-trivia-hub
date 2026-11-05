@@ -62,6 +62,9 @@ public class QuizApi {
 
     private static final int TIMEOUT_MS = 10000;
 
+    // Soalan "multiple choice" ada 1 jawapan betul + 3 jawapan salah = 4 pilihan
+    private static final int INCORRECT_ANSWER_COUNT = 3;
+
     // Satu RequestQueue dikongsi seluruh app (setiap queue membuka beberapa thread).
     private static RequestQueue requestQueue;
 
@@ -114,6 +117,11 @@ public class QuizApi {
             callback.onError(ErrorType.GENERIC);
             return;
         }
+        if (questions.isEmpty()) {
+            // Kod 0 tetapi tiada soalan: kuiz tidak boleh dimulakan
+            callback.onError(ErrorType.GENERIC);
+            return;
+        }
         callback.onSuccess(questions);
     }
 
@@ -124,6 +132,11 @@ public class QuizApi {
             JSONObject item = results.getJSONObject(i);
 
             JSONArray incorrectJson = item.getJSONArray("incorrect_answers");
+            if (incorrectJson.length() != INCORRECT_ANSWER_COUNT) {
+                // QuizActivity mengandaikan tepat 4 pilihan (4 butang); lebih selamat tolak
+                // data yang pelik daripada ranap semasa memaparkan butang.
+                throw new JSONException("Dijangka " + INCORRECT_ANSWER_COUNT + " jawapan salah");
+            }
             List<String> incorrect = new ArrayList<>();
             for (int j = 0; j < incorrectJson.length(); j++) {
                 incorrect.add(incorrectJson.getString(j));
