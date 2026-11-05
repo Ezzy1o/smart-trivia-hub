@@ -35,7 +35,7 @@
     <string name="error_name_empty">Sila masukkan nama anda</string>
     <string name="error_name_invalid">Nama hanya boleh mengandungi huruf dan ruang</string>
     <string name="error_id_empty">Sila masukkan ID pelajar</string>
-    <string name="error_id_invalid">ID pelajar tidak sah</string>
+    <string name="error_id_invalid">ID pelajar mesti 8 hingga 12 huruf atau nombor</string>
 
     <!-- ResultActivity -->
     <string name="label_greeting">Tahniah, %1$s!</string>
@@ -81,4 +81,6 @@
 
     <!-- Java messages -->
     <!-- Ahli Logik: tambah string baharu di bawah baris ini sahaja, untuk elak konflik merge. -->
+    <string name="error_program_invalid">Sila pilih program anda</string>
+    <string name="error_difficulty_invalid">Sila pilih tahap kesukaran</string>
 </resources>
