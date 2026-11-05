@@ -64,7 +64,7 @@ Ahli Logik guna nama-nama ini dalam Java (`binding.<id dalam camelCase>`). **Jan
 | `tv_subtitle` | TextView | Penerangan ringkas |
 | `et_name` | TextInputEditText | Nama (validation di Java) |
 | `et_student_id` | TextInputEditText | Student ID (validation di Java) |
-| `spinner_program` | Spinner | Program; entri dari `@array/programs` |
+| `spinner_program` | Spinner | Program; entri dari `@array/programs`. Kedudukan 0 ialah petunjuk 'Pilih program'; Java anggap ia tidak sah. |
 | `spinner_category` | Spinner | Kategori; entri dari `@array/categories` (susunan: Computers, Mathematics, Science & Nature, General Knowledge) |
 | `rg_difficulty` | RadioGroup | Mengandungi `rb_easy`, `rb_medium`, `rb_hard` |
 | `btn_start` | MaterialButton | Mula kuiz |

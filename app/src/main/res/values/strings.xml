@@ -6,6 +6,7 @@
     <string name="app_subtitle">Uji kefahaman anda sebelum peperiksaan</string>
     <string name="hint_name">Nama penuh</string>
     <string name="hint_student_id">ID pelajar</string>
+    <string name="hint_select_program">Pilih program</string>
     <string name="difficulty_easy">Mudah</string>
     <string name="difficulty_medium">Sederhana</string>
     <string name="difficulty_hard">Sukar</string>
@@ -50,11 +51,22 @@
     <string name="cd_item_status">Status jawapan</string>
 
     <!-- Senarai untuk Spinner -->
-    <!-- TODO (Ahli UI): ganti 3 entri placeholder di bawah dengan nama program GMI yang sebenar -->
+    <!-- Kedudukan 0 ialah petunjuk "Pilih program"; Java anggap ia tidak sah. -->
     <string-array name="programs">
-        <item>Program A (placeholder)</item>
-        <item>Program B (placeholder)</item>
-        <item>Program C (placeholder)</item>
+        <item>@string/hint_select_program</item>
+        <item>Diploma in Creative Multimedia</item>
+        <item>Diploma in Software Engineering</item>
+        <item>Diploma in Cyber Security Technology</item>
+        <item>Diploma of Mechatronics Engineering Technology</item>
+        <item>Diploma of Engineering Technology (Instrumentation and Control)</item>
+        <item>Diploma of Electronics Engineering Technology (Computer)</item>
+        <item>Diploma in Engineering Technology (Sustainable Energy and Power Distribution)</item>
+        <item>Diploma in Autotronics Engineering Technology</item>
+        <item>Diploma in Mechanical Engineering Technology (CNC Precision)</item>
+        <item>Diploma in Precision Tooling Engineering Technology</item>
+        <item>Diploma in Mechanical Engineering Technology (Manufacturing)</item>
+        <item>Diploma in Engineering Technology (Machine Tools Maintenance)</item>
+        <item>Diploma in Industrial Quality Engineering Technology</item>
     </string-array>
     <!-- Susunan mesti kekal: indeks Spinner dipetakan ke ID kategori Open Trivia DB di Java -->
     <string-array name="categories">
