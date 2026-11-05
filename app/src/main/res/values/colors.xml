@@ -3,15 +3,22 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <!-- Warna kontrak. Nilai sementara, akan dimuktamadkan oleh Ahli UI (prompt U1). -->
+    <!-- Warna kontrak -->
+    <!-- primary: biru gelap; putih di atasnya ~13:1 -->
     <color name="primary">#FF1A237E</color>
     <color name="primary_dark">#FF0D1442</color>
-    <color name="accent">#FF00897B</color>
-    <color name="background">#FFF5F5F5</color>
+    <!-- accent: teal; putih di atasnya ~5.3:1 -->
+    <color name="accent">#FF00796B</color>
+    <color name="background">#FFF4F6FA</color>
     <color name="surface">#FFFFFFFF</color>
-    <color name="text_primary">#FF212121</color>
-    <color name="text_secondary">#FF616161</color>
+    <!-- text_primary ~15:1 dan text_secondary ~6:1 di atas background -->
+    <color name="text_primary">#FF1F2933</color>
+    <color name="text_secondary">#FF52606D</color>
+    <!-- correct / wrong HANYA untuk maklum balas betul / salah; putih di atasnya >5:1 -->
     <color name="correct">#FF2E7D32</color>
     <color name="wrong">#FFC62828</color>
     <color name="on_primary">#FFFFFFFF</color>
+
+    <!-- Tambahan (bukan kontrak): trek ProgressBar mendatar -->
+    <color name="progress_track">#FFD5DAE5</color>
 </resources>
