@@ -13,6 +13,8 @@ import androidx.databinding.DataBindingUtil;
 
 import com.example.smarttriviahub.databinding.ActivityQuizBinding;
 
+import java.util.List;
+
 public class QuizActivity extends AppCompatActivity {
 
     private static final String TAG = "QuizActivity";
@@ -34,6 +36,24 @@ public class QuizActivity extends AppCompatActivity {
         // Navigasi sementara untuk uji aliran. Ahli Logik ganti dengan logik kuiz sebenar (prompt L3).
         binding.btnNext.setOnClickListener(v ->
                 startActivity(new Intent(QuizActivity.this, ResultActivity.class)));
+
+        // TODO (L3): BUANG ujian sementara ini bila logik kuiz sebenar siap.
+        // Kategori 18 = Computers, tahap "medium" ditetapkan di sini hanya untuk uji Volley.
+        QuizApi.fetchQuestions(this, 18, "medium", new QuizApi.Callback() {
+            @Override
+            public void onSuccess(List<Question> questions) {
+                Log.d(TAG, "Fetch OK: " + questions.size() + " soalan");
+                for (Question q : questions) {
+                    Log.d(TAG, q.getQuestionText() + " | betul: " + q.getCorrectAnswer()
+                            + " | pilihan: " + q.getOptions());
+                }
+            }
+
+            @Override
+            public void onError(QuizApi.ErrorType errorType) {
+                Log.d(TAG, "Fetch GAGAL: " + errorType + " -> " + getString(errorType.getMessageResId()));
+            }
+        });
     }
 
     @Override
