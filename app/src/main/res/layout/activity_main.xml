@@ -3,208 +3,214 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Seluruh borang dalam ScrollView supaya boleh di-scroll bila skrin pendek (landscape). -->
-    <ScrollView
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true"
         tools:context=".MainActivity">
 
-        <!-- Lajur borang. Mendatar: lebar dihadkan 560dp + layout_gravity="center_horizontal".
-             Menegak: fillViewport meregangkan lajur setinggi skrin, dan vertical chain
-             "packed" (tv_app_title ... btn_start) memusatkan borang bila ia pendek.
-             Bila borang lebih tinggi daripada skrin, ia bermula dari atas dan boleh di-scroll. -->
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <com.example.smarttriviahub.MatrixRainView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:maxWidth="560dp"
-            android:padding="16dp">
+            android:layout_height="match_parent" />
 
-            <TextView
-                android:id="@+id/tv_app_title"
-                android:layout_width="wrap_content"
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:background="@android:color/transparent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/app_title"
-                android:textAppearance="?attr/textAppearanceHeadlineMedium"
-                android:textColor="@color/primary"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@id/tv_subtitle"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_chainStyle="packed" />
+                android:layout_gravity="center_horizontal"
+                android:maxWidth="560dp"
+                android:padding="16dp"
+                android:background="@android:color/transparent">
 
-            <TextView
-                android:id="@+id/tv_subtitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:gravity="center"
-                android:text="@string/app_subtitle"
-                android:textAppearance="?attr/textAppearanceBodyLarge"
-                android:textColor="@color/text_secondary"
-                app:layout_constraintBottom_toTopOf="@id/til_name"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_app_title" />
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/til_name"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:hint="@string/hint_name"
-                app:layout_constraintBottom_toTopOf="@id/til_student_id"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_subtitle">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_name"
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/tv_app_title"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:imeOptions="actionNext"
-                    android:inputType="textPersonName|textCapWords" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:text="@string/app_title"
+                    android:textAppearance="?attr/textAppearanceHeadlineMedium"
+                    android:textColor="@color/primary"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@id/tv_subtitle"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_chainStyle="packed" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/til_student_id"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:hint="@string/hint_student_id"
-                app:layout_constraintBottom_toTopOf="@id/tv_label_program"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/til_name">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_student_id"
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/tv_subtitle"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:imeOptions="actionDone"
-                    android:inputType="textCapCharacters|textNoSuggestions" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_marginTop="8dp"
+                    android:gravity="center"
+                    android:text="@string/app_subtitle"
+                    android:textAppearance="?attr/textAppearanceBodyLarge"
+                    android:textColor="@color/text_secondary"
+                    app:layout_constraintBottom_toTopOf="@id/til_name"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_app_title" />
 
-            <TextView
-                android:id="@+id/tv_label_program"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:labelFor="@id/spinner_program"
-                android:text="@string/label_program"
-                android:textAppearance="?attr/textAppearanceLabelLarge"
-                android:textColor="@color/text_secondary"
-                app:layout_constraintBottom_toTopOf="@id/spinner_program"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/til_student_id" />
-
-            <Spinner
-                android:id="@+id/spinner_program"
-                android:layout_width="0dp"
-                android:layout_height="56dp"
-                android:layout_marginTop="4dp"
-                android:background="@drawable/bg_spinner"
-                android:entries="@array/programs"
-                android:paddingStart="16dp"
-                android:paddingEnd="48dp"
-                android:popupBackground="@color/surface"
-                app:layout_constraintBottom_toTopOf="@id/tv_label_category"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_label_program" />
-
-            <TextView
-                android:id="@+id/tv_label_category"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:labelFor="@id/spinner_category"
-                android:text="@string/label_category"
-                android:textAppearance="?attr/textAppearanceLabelLarge"
-                android:textColor="@color/text_secondary"
-                app:layout_constraintBottom_toTopOf="@id/spinner_category"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/spinner_program" />
-
-            <Spinner
-                android:id="@+id/spinner_category"
-                android:layout_width="0dp"
-                android:layout_height="56dp"
-                android:layout_marginTop="4dp"
-                android:background="@drawable/bg_spinner"
-                android:entries="@array/categories"
-                android:paddingStart="16dp"
-                android:paddingEnd="48dp"
-                android:popupBackground="@color/surface"
-                app:layout_constraintBottom_toTopOf="@id/tv_label_difficulty"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_label_category" />
-
-            <TextView
-                android:id="@+id/tv_label_difficulty"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:labelFor="@id/rg_difficulty"
-                android:text="@string/label_difficulty"
-                android:textAppearance="?attr/textAppearanceLabelLarge"
-                android:textColor="@color/text_secondary"
-                app:layout_constraintBottom_toTopOf="@id/rg_difficulty"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/spinner_category" />
-
-            <RadioGroup
-                android:id="@+id/rg_difficulty"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:checkedButton="@id/rb_medium"
-                android:orientation="horizontal"
-                app:layout_constraintBottom_toTopOf="@id/btn_start"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_label_difficulty">
-
-                <RadioButton
-                    android:id="@+id/rb_easy"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_name"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:minHeight="48dp"
-                    android:text="@string/difficulty_easy" />
+                    android:layout_marginTop="24dp"
+                    android:hint="@string/hint_name"
+                    app:layout_constraintBottom_toTopOf="@id/til_student_id"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_subtitle">
 
-                <RadioButton
-                    android:id="@+id/rb_medium"
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:imeOptions="actionNext"
+                        android:inputType="textPersonName|textCapWords" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_student_id"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:minHeight="48dp"
-                    android:text="@string/difficulty_medium" />
+                    android:layout_marginTop="8dp"
+                    android:hint="@string/hint_student_id"
+                    app:layout_constraintBottom_toTopOf="@id/tv_label_program"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/til_name">
 
-                <RadioButton
-                    android:id="@+id/rb_hard"
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_student_id"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:imeOptions="actionDone"
+                        android:inputType="textCapCharacters|textNoSuggestions" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:id="@+id/tv_label_program"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:labelFor="@id/spinner_program"
+                    android:text="@string/label_program"
+                    android:textAppearance="?attr/textAppearanceLabelLarge"
+                    android:textColor="@color/text_secondary"
+                    app:layout_constraintBottom_toTopOf="@id/spinner_program"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/til_student_id" />
+
+                <Spinner
+                    android:id="@+id/spinner_program"
+                    android:layout_width="0dp"
+                    android:layout_height="56dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/bg_spinner"
+                    android:entries="@array/programs"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="48dp"
+                    android:popupBackground="@color/surface"
+                    app:layout_constraintBottom_toTopOf="@id/tv_label_category"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_label_program" />
+
+                <TextView
+                    android:id="@+id/tv_label_category"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:labelFor="@id/spinner_category"
+                    android:text="@string/label_category"
+                    android:textAppearance="?attr/textAppearanceLabelLarge"
+                    android:textColor="@color/text_secondary"
+                    app:layout_constraintBottom_toTopOf="@id/spinner_category"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/spinner_program" />
+
+                <Spinner
+                    android:id="@+id/spinner_category"
+                    android:layout_width="0dp"
+                    android:layout_height="56dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/bg_spinner"
+                    android:entries="@array/categories"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="48dp"
+                    android:popupBackground="@color/surface"
+                    app:layout_constraintBottom_toTopOf="@id/tv_label_difficulty"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_label_category" />
+
+                <TextView
+                    android:id="@+id/tv_label_difficulty"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:labelFor="@id/rg_difficulty"
+                    android:text="@string/label_difficulty"
+                    android:textAppearance="?attr/textAppearanceLabelLarge"
+                    android:textColor="@color/text_secondary"
+                    app:layout_constraintBottom_toTopOf="@id/rg_difficulty"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/spinner_category" />
+
+                <RadioGroup
+                    android:id="@+id/rg_difficulty"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:minHeight="48dp"
-                    android:text="@string/difficulty_hard" />
-            </RadioGroup>
+                    android:layout_marginTop="4dp"
+                    android:checkedButton="@id/rb_medium"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toTopOf="@id/btn_start"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_label_difficulty">
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_start"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:minHeight="56dp"
-                android:text="@string/btn_start"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/rg_difficulty" />
+                    <RadioButton
+                        android:id="@+id/rb_easy"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:minHeight="48dp"
+                        android:text="@string/difficulty_easy" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
+                    <RadioButton
+                        android:id="@+id/rb_medium"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:minHeight="48dp"
+                        android:text="@string/difficulty_medium" />
+
+                    <RadioButton
+                        android:id="@+id/rb_hard"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:minHeight="48dp"
+                        android:text="@string/difficulty_hard" />
+                </RadioGroup>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_start"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:minHeight="56dp"
+                    android:text="@string/btn_start"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/rg_difficulty" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+    </FrameLayout>
 </layout>

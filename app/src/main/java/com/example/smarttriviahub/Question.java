@@ -8,9 +8,9 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Model (M dalam MVC): satu soalan trivia beserta jawapan pengguna.
- * Implements Serializable supaya senarai soalan boleh dihantar melalui Intent / Bundle
- * dan disimpan semasa skrin diputar (onSaveInstanceState).
+ * Model (M in MVC): a single trivia question along with user answers.
+ * Implements Serializable so the list of questions can be passed via Intent / Bundle
+ * and saved during screen rotation (onSaveInstanceState).
  */
 public class Question implements Serializable {
 
@@ -18,30 +18,30 @@ public class Question implements Serializable {
 
     private final String questionText;
     private final String correctAnswer;
-    private final List<String> options;   // 4 pilihan, sudah di-shuffle
-    private String userAnswer;            // null selagi pengguna belum menjawab
+    private final List<String> options;   // 4 choices, already shuffled
+    private String userAnswer;            // null until user answers
 
     /**
-     * @param rawQuestion      teks soalan mentah dari API (mungkin ada &quot; &#039; dan sebagainya)
-     * @param rawCorrect       jawapan betul mentah
-     * @param rawIncorrectList 3 jawapan salah mentah
+     * @param rawQuestion      raw question text from API (may contain &quot; &#039; etc.)
+     * @param rawCorrect       raw correct answer
+     * @param rawIncorrectList 3 raw incorrect answers
      */
     public Question(String rawQuestion, String rawCorrect, List<String> rawIncorrectList) {
         this.questionText = decode(rawQuestion);
         this.correctAnswer = decode(rawCorrect);
 
-        // Gabung 3 jawapan salah + 1 jawapan betul, semuanya didecode dahulu.
+        // Combine 3 incorrect answers + 1 correct answer, all decoded beforehand.
         this.options = new ArrayList<>();
         for (String raw : rawIncorrectList) {
             options.add(decode(raw));
         }
         options.add(correctAnswer);
 
-        // API sentiasa letak jawapan betul di tempat yang sama. Shuffle supaya kedudukannya rawak.
+        // API always puts the correct answer in the same place. Shuffle so position is random.
         Collections.shuffle(options);
     }
 
-    /** Tukar HTML entities (&quot; &amp; &#039;) kepada aksara biasa. */
+    /** Convert HTML entities (&quot; &amp; &#039;) to normal characters. */
     private static String decode(String raw) {
         return Html.fromHtml(raw, Html.FROM_HTML_MODE_LEGACY).toString();
     }

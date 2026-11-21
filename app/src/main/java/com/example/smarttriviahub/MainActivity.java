@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.core.view.WindowInsetsControllerCompat;
 import androidx.databinding.DataBindingUtil;
 
 import com.example.smarttriviahub.databinding.ActivityMainBinding;
@@ -24,20 +25,21 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
 
-    // Nama: huruf (termasuk huruf bertanda seperti é) dan ruang sahaja.
+    // Name: letters (including accented letters like é) and spaces only.
     private static final String NAME_PATTERN = "[\\p{L} ]+";
 
-    // Student ID: 8 hingga 12 huruf atau nombor. UBAH di sini jika format sebenar berbeza,
-    // dan kemas kini teks error_id_invalid dalam strings.xml.
+    // Student ID: 8 to 12 letters or numbers. Change here if the actual format differs,
+    // and update error_id_invalid text in strings.xml.
     private static final String STUDENT_ID_PATTERN = "[A-Za-z0-9]{8,12}";
 
-    // Entri pertama @array/programs ialah petunjuk "Pilih program", bukan program sebenar.
+    // First entry of @array/programs is the hint "Select program", not an actual program.
     private static final int PROGRAM_HINT_POSITION = 0;
 
-    // Kedudukan dalam Spinner kategori -> ID kategori Open Trivia DB.
-    // Susunan MESTI sama dengan @array/categories: Computers, Mathematics,
-    // Science & Nature, General Knowledge.
-    private static final int[] CATEGORY_IDS = {18, 19, 17, 9};
+    // Spinner category position -> Open Trivia DB category ID.
+    // Order MUST match @array/categories: Computers, Mathematics, Science & Nature, General Knowledge,
+    // Books, Film, Music, Musicals & Theatres, Television, Video Games, Board Games, Comics,
+    // Japanese Anime & Manga, Cartoon & Animations.
+    private static final int[] CATEGORY_IDS = {18, 19, 17, 9, 10, 11, 12, 13, 14, 15, 16, 29, 31, 32};
 
     private ActivityMainBinding binding;
 
@@ -53,8 +55,12 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        // Nilai form (teks, pilihan Spinner, RadioButton) TIDAK perlu disimpan secara manual
-        // semasa rotation: Android menyimpannya sendiri kerana setiap widget ada android:id.
+        WindowInsetsControllerCompat controller = new WindowInsetsControllerCompat(getWindow(), binding.getRoot());
+        controller.setAppearanceLightStatusBars(false);
+        controller.setAppearanceLightNavigationBars(false);
+
+        // Form values (text, Spinner selection, RadioButton) do NOT need manual saving
+        // during rotation: Android saves them automatically because every widget has an android:id.
 
         clearErrorOnTyping(binding.tilName, binding.etName);
         clearErrorOnTyping(binding.tilStudentId, binding.etStudentId);
@@ -63,10 +69,10 @@ public class MainActivity extends AppCompatActivity {
         binding.btnStart.setOnClickListener(v -> onStartClicked());
     }
 
-    /** Ditekan butang Mula: semak form dahulu, hanya teruskan jika semuanya sah. */
+    /** Start button pressed: validate form first, only proceed if everything is valid. */
     private void onStartClicked() {
-        // Semua semakan dijalankan (bukan berhenti pada ralat pertama) supaya semua medan
-        // yang salah dipaparkan serentak.
+        // Run all validations (do not stop at the first error) so all invalid fields
+        // are displayed simultaneously.
         boolean nameOk = validateName();
         boolean idOk = validateStudentId();
         boolean programOk = validateProgram();
@@ -77,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        // Ada ralat: letak fokus pada medan pertama yang salah (ikut susunan dalam borang).
+        // Error found: focus on the first invalid field (in form order).
         if (!nameOk) {
             binding.etName.requestFocus();
         } else if (!idOk) {
@@ -101,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
             binding.tilName.setError(getString(R.string.error_name_invalid));
             return false;
         }
-        binding.tilName.setError(null);   // null = padam mesej ralat
+        binding.tilName.setError(null);   // null = clear error message
         return true;
     }
 
@@ -120,8 +126,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private boolean validateProgram() {
-        // Spinner tiada setError() sendiri, jadi ralat dipasang pada TextView
-        // yang sedang dipaparkan oleh Spinner (item yang dipilih).
+        // Spinner has no setError() of its own, so the error is set on the TextView
+        // currently displayed by the Spinner (the selected item).
         View selectedView = binding.spinnerProgram.getSelectedView();
         boolean isHint = binding.spinnerProgram.getSelectedItemPosition() == PROGRAM_HINT_POSITION;
 
@@ -132,20 +138,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private boolean validateDifficulty() {
-        // RadioButton ialah TextView juga, jadi boleh setError(). Dalam amalan rb_medium
-        // dipilih secara lalai, jadi semakan ini hanya perlindungan tambahan.
+        // RadioButton is also a TextView, so setError() can be called. In practice rb_medium
+        // is selected by default, so this check is extra protection.
         boolean selected = getSelectedDifficulty() != null;
         binding.rbHard.setError(selected ? null : getString(R.string.error_difficulty_invalid));
         return selected;
     }
 
-    /** Baca teks medan input; null-safe dan buang ruang di hujung. */
+    /** Read input field text; null-safe and trimmed. */
     private String readText(TextInputEditText editText) {
         Editable text = editText.getText();
         return text == null ? "" : text.toString().trim();
     }
 
-    /** Nilai "difficulty" untuk URL API, atau null jika tiada RadioButton dipilih. */
+    /** "difficulty" value for API URL, or null if no RadioButton is selected. */
     private String getSelectedDifficulty() {
         int checkedId = binding.rgDifficulty.getCheckedRadioButtonId();
         if (checkedId == R.id.rb_easy) {
@@ -158,12 +164,12 @@ public class MainActivity extends AppCompatActivity {
         return null;
     }
 
-    // ---------- Hantar ke QuizActivity ----------
+    // ---------- Send to QuizActivity ----------
 
     private void startQuiz() {
         int categoryPosition = binding.spinnerCategory.getSelectedItemPosition();
 
-        // Bundle = bungkusan pasangan key-value. Key sentiasa dari Constants.
+        // Bundle = container of key-value pairs. Keys always from Constants.
         Bundle extras = new Bundle();
         extras.putString(Constants.EXTRA_NAME, readText(binding.etName));
         extras.putString(Constants.EXTRA_STUDENT_ID, readText(binding.etStudentId));
@@ -172,18 +178,18 @@ public class MainActivity extends AppCompatActivity {
         extras.putString(Constants.EXTRA_CATEGORY_NAME, binding.spinnerCategory.getSelectedItem().toString());
         extras.putString(Constants.EXTRA_DIFFICULTY, getSelectedDifficulty());
 
-        // Explicit Intent: kita namakan kelas sasaran (QuizActivity.class) dengan jelas.
+        // Explicit Intent: name target class (QuizActivity.class) clearly.
         Intent intent = new Intent(this, QuizActivity.class);
         intent.putExtras(extras);
-        // SINGLE_TOP: jika butang Mula ditekan dua kali dengan pantas, tekanan kedua tidak
-        // membuka QuizActivity kedua (yang akan fetch kali kedua dan terkena rate limit).
+        // SINGLE_TOP: if Start button is double-tapped quickly, the second tap does not
+        // open a second QuizActivity (which would fetch again and hit rate limit).
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(intent);
     }
 
-    // ---------- Padam ralat bila pengguna membetulkan ----------
+    // ---------- Clear error when user corrects input ----------
 
-    /** Padam mesej ralat sebaik sahaja pengguna mula menaip semula dalam medan itu. */
+    /** Clear error message as soon as the user starts typing in that field. */
     private void clearErrorOnTyping(TextInputLayout layout, TextInputEditText editText) {
         editText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -201,7 +207,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    /** Padam ralat pada Spinner program sebaik sahaja pengguna memilih item lain. */
+    /** Clear error on program Spinner as soon as the user selects another item. */
     private void clearProgramErrorOnSelect() {
         binding.spinnerProgram.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

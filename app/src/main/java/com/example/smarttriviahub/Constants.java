@@ -1,17 +1,17 @@
 package com.example.smarttriviahub;
 
 /**
- * Semua nilai tetap yang dikongsi antara activity dan kelas API.
- * Key Intent diletakkan di sini supaya tiada string bertaburan: kalau key ditaip salah,
- * compiler terus beri ralat (berbanding string biasa yang hanya gagal masa app berjalan).
+ * All constant values shared between activities and API classes.
+ * Intent keys are placed here so there are no scattered strings: if a key is typed incorrectly,
+ * the compiler immediately flags an error (compared to regular strings which only fail at runtime).
  */
 public final class Constants {
 
-    // Constructor private: kelas ini hanya bekas pemalar, tak perlu dibuat objek.
+    // Private constructor: this class is just a constant container, no need to instantiate objects.
     private Constants() {
     }
 
-    // Key untuk Bundle / Intent extras
+    // Keys for Bundle / Intent extras
     public static final String EXTRA_NAME = "extra_name";
     public static final String EXTRA_STUDENT_ID = "extra_student_id";
     public static final String EXTRA_PROGRAM = "extra_program";

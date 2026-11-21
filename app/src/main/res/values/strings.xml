@@ -3,58 +3,58 @@
 
     <!-- MainActivity -->
     <string name="app_title">Smart Trivia Hub</string>
-    <string name="app_subtitle">Uji kefahaman anda sebelum peperiksaan</string>
-    <string name="hint_name">Nama penuh</string>
-    <string name="hint_student_id">ID pelajar</string>
-    <string name="hint_select_program">Pilih program</string>
+    <string name="app_subtitle">Test your understanding before the exam</string>
+    <string name="hint_name">Full name</string>
+    <string name="hint_student_id">Student ID</string>
+    <string name="hint_select_program">Select program</string>
     <string name="label_program">Program</string>
-    <string name="label_category">Kategori soalan</string>
-    <string name="label_difficulty">Tahap kesukaran</string>
-    <string name="difficulty_easy">Mudah</string>
-    <string name="difficulty_medium">Sederhana</string>
-    <string name="difficulty_hard">Sukar</string>
-    <string name="btn_start">Mula Kuiz</string>
+    <string name="label_category">Question category</string>
+    <string name="label_difficulty">Difficulty level</string>
+    <string name="difficulty_easy">Easy</string>
+    <string name="difficulty_medium">Medium</string>
+    <string name="difficulty_hard">Hard</string>
+    <string name="btn_start">Start Quiz</string>
 
     <!-- QuizActivity -->
-    <string name="btn_next">Seterusnya</string>
-    <string name="btn_see_result">Lihat Keputusan</string>
-    <string name="btn_retry">Cuba Semula</string>
-    <string name="label_question_counter">Soalan %1$d/%2$d</string>
-    <string name="label_score">Skor: %1$d</string>
-    <string name="msg_correct">Betul! Syabas!</string>
-    <string name="msg_wrong">Salah. Jawapan betul: %1$s</string>
-    <string name="cd_feedback">Ikon maklum balas jawapan</string>
+    <string name="btn_next">Next</string>
+    <string name="btn_see_result">See Results</string>
+    <string name="btn_retry">Retry</string>
+    <string name="label_question_counter">Question %1$d/%2$d</string>
+    <string name="label_score">Score: %1$d</string>
+    <string name="msg_correct">Correct! Well done!</string>
+    <string name="msg_wrong">Incorrect. Correct answer: %1$s</string>
+    <string name="cd_feedback">Answer feedback icon</string>
 
-    <!-- Ralat API -->
-    <string name="error_no_internet">Tiada sambungan internet. Sila semak rangkaian anda dan cuba semula.</string>
-    <string name="error_rate_limit">Terlalu banyak permintaan. Tunggu beberapa saat, kemudian cuba semula.</string>
-    <string name="error_not_enough_questions">Tiada cukup soalan untuk gabungan kategori dan tahap kesukaran ini. Cuba tukar tahap kesukaran.</string>
-    <string name="error_generic">Sesuatu tidak kena semasa memuatkan soalan. Sila cuba semula.</string>
+    <!-- API Errors -->
+    <string name="error_no_internet">No internet connection. Please check your network and try again.</string>
+    <string name="error_rate_limit">Too many requests. Please wait a few seconds and try again.</string>
+    <string name="error_not_enough_questions">Not enough questions for this category and difficulty combination. Try changing the difficulty.</string>
+    <string name="error_generic">Something went wrong while loading questions. Please try again.</string>
 
     <!-- Validation -->
-    <string name="error_name_empty">Sila masukkan nama anda</string>
-    <string name="error_name_invalid">Nama hanya boleh mengandungi huruf dan ruang</string>
-    <string name="error_id_empty">Sila masukkan ID pelajar</string>
-    <string name="error_id_invalid">ID pelajar mesti 8 hingga 12 huruf atau nombor</string>
+    <string name="error_name_empty">Please enter your name</string>
+    <string name="error_name_invalid">Name can only contain letters and spaces</string>
+    <string name="error_id_empty">Please enter your student ID</string>
+    <string name="error_id_invalid">Student ID must be 8 to 12 letters or numbers</string>
 
     <!-- ResultActivity -->
-    <string name="label_greeting">Tahniah, %1$s!</string>
+    <string name="label_greeting">Congratulations, %1$s!</string>
     <string name="label_percentage">%1$d%%</string>
-    <string name="label_correct_count">Betul: %1$d</string>
-    <string name="label_wrong_count">Salah: %1$d</string>
-    <string name="perf_excellent">Cemerlang</string>
-    <string name="perf_good">Baik</string>
-    <string name="perf_needs_revision">Perlu Ulangkaji</string>
-    <string name="btn_try_again">Kuiz Baharu</string>
-    <string name="btn_restart">Mula Semula</string>
+    <string name="label_correct_count">Correct: %1$d</string>
+    <string name="label_wrong_count">Incorrect: %1$d</string>
+    <string name="perf_excellent">Excellent</string>
+    <string name="perf_good">Good</string>
+    <string name="perf_needs_revision">Needs Revision</string>
+    <string name="btn_try_again">New Quiz</string>
+    <string name="btn_restart">Main Menu</string>
 
     <!-- item_breakdown -->
-    <string name="label_your_answer">Jawapan anda: %1$s</string>
-    <string name="label_correct_answer">Jawapan betul: %1$s</string>
-    <string name="cd_item_status">Status jawapan</string>
+    <string name="label_your_answer">Your answer: %1$s</string>
+    <string name="label_correct_answer">Correct answer: %1$s</string>
+    <string name="cd_item_status">Answer status</string>
 
-    <!-- Senarai untuk Spinner -->
-    <!-- Kedudukan 0 ialah petunjuk "Pilih program"; Java anggap ia tidak sah. -->
+    <!-- Spinner Arrays -->
+    <!-- Position 0 is the hint "Select program"; Java treats it as invalid. -->
     <string-array name="programs">
         <item>@string/hint_select_program</item>
         <item>Diploma in Creative Multimedia</item>
@@ -71,16 +71,26 @@
         <item>Diploma in Engineering Technology (Machine Tools Maintenance)</item>
         <item>Diploma in Industrial Quality Engineering Technology</item>
     </string-array>
-    <!-- Susunan mesti kekal: indeks Spinner dipetakan ke ID kategori Open Trivia DB di Java -->
+    <!-- Order must remain fixed: Spinner positions are mapped to Open Trivia DB category IDs in Java -->
     <string-array name="categories">
         <item>Computers</item>
         <item>Mathematics</item>
         <item>Science &amp; Nature</item>
         <item>General Knowledge</item>
+        <item>Books</item>
+        <item>Film</item>
+        <item>Music</item>
+        <item>Musicals &amp; Theatres</item>
+        <item>Television</item>
+        <item>Video Games</item>
+        <item>Board Games</item>
+        <item>Comics</item>
+        <item>Japanese Anime &amp; Manga</item>
+        <item>Cartoon &amp; Animations</item>
     </string-array>
 
     <!-- Java messages -->
-    <!-- Ahli Logik: tambah string baharu di bawah baris ini sahaja, untuk elak konflik merge. -->
-    <string name="error_program_invalid">Sila pilih program anda</string>
-    <string name="error_difficulty_invalid">Sila pilih tahap kesukaran</string>
+    <!-- Logic Member: add new strings below this line only, to avoid merge conflicts. -->
+    <string name="error_program_invalid">Please select your program</string>
+    <string name="error_difficulty_invalid">Please select difficulty level</string>
 </resources>

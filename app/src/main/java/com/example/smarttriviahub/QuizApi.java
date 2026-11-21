@@ -21,13 +21,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Mengambil 10 soalan dari Open Trivia DB menggunakan Volley.
- * Kelas ini TIDAK menyentuh UI: ia hanya pulangkan hasil (senarai soalan atau jenis ralat)
- * melalui Callback. Activity yang menentukan apa yang dipaparkan.
+ * Fetches 10 questions from Open Trivia DB using Volley.
+ * This class does NOT touch the UI: it only returns results (list of questions or error type)
+ * via Callback. The Activity determines what is displayed.
  */
 public class QuizApi {
 
-    /** Jenis ralat. Setiap jenis tahu id string mesej pengguna dalam strings.xml. */
+    /** Error types. Each type knows its user message string resource ID in strings.xml. */
     public enum ErrorType {
         NO_INTERNET(R.string.error_no_internet),
         RATE_LIMIT(R.string.error_rate_limit),
@@ -40,21 +40,21 @@ public class QuizApi {
             this.messageResId = messageResId;
         }
 
-        /** Guna: getString(type.getMessageResId()). */
+        /** Usage: getString(type.getMessageResId()). */
         @StringRes
         public int getMessageResId() {
             return messageResId;
         }
     }
 
-    /** Activity melaksanakan ini untuk menerima hasil. Dipanggil pada main thread. */
+    /** Activities implement this to receive results. Called on the main thread. */
     public interface Callback {
         void onSuccess(List<Question> questions);
 
         void onError(ErrorType errorType);
     }
 
-    // Nilai response_code dalam JSON Open Trivia DB
+    // response_code values in Open Trivia DB JSON
     private static final int CODE_OK = 0;
     private static final int CODE_NOT_ENOUGH_QUESTIONS = 1;
     private static final int CODE_RATE_LIMIT = 5;
@@ -62,10 +62,10 @@ public class QuizApi {
 
     private static final int TIMEOUT_MS = 10000;
 
-    // Soalan "multiple choice" ada 1 jawapan betul + 3 jawapan salah = 4 pilihan
+    // Multiple choice questions have 1 correct answer + 3 incorrect answers = 4 choices
     private static final int INCORRECT_ANSWER_COUNT = 3;
 
-    // Satu RequestQueue dikongsi seluruh app (setiap queue membuka beberapa thread).
+    // A single RequestQueue shared across the app (each queue opens multiple threads).
     private static RequestQueue requestQueue;
 
     private QuizApi() {
@@ -73,7 +73,7 @@ public class QuizApi {
 
     private static RequestQueue getRequestQueue(Context context) {
         if (requestQueue == null) {
-            // ApplicationContext, bukan Activity: queue hidup lebih lama daripada activity.
+            // ApplicationContext, not Activity: queue lives longer than activity.
             requestQueue = Volley.newRequestQueue(context.getApplicationContext());
         }
         return requestQueue;
@@ -87,7 +87,7 @@ public class QuizApi {
                 + "&category=" + categoryId
                 + "&difficulty=" + difficulty;
 
-        // GET, tiada body (null). Listener pertama = berjaya, kedua = gagal.
+        // GET, no body (null). First listener = success, second = error.
         JsonObjectRequest request = new JsonObjectRequest(
                 Request.Method.GET,
                 url,
@@ -95,14 +95,14 @@ public class QuizApi {
                 response -> handleResponse(response, callback),
                 error -> callback.onError(errorFromVolley(error)));
 
-        // Tunggu 10 saat (lalai 2.5 saat terlalu singkat untuk API ini), tanpa cuba semula
-        // automatik supaya tidak menambah beban bila terkena rate limit.
+        // Wait 10 seconds (default 2.5s is too short for this API), without automatic retry
+        // so as not to add load when hitting rate limit.
         request.setRetryPolicy(new DefaultRetryPolicy(TIMEOUT_MS, 0, 1f));
 
         getRequestQueue(context).add(request);
     }
 
-    /** Respons HTTP 200 diterima. Semak response_code dahulu, kemudian parse soalan. */
+    /** HTTP 200 response received. Check response_code first, then parse questions. */
     private static void handleResponse(JSONObject response, Callback callback) {
         List<Question> questions;
         try {
@@ -113,12 +113,12 @@ public class QuizApi {
             }
             questions = parseQuestions(response.getJSONArray("results"));
         } catch (JSONException e) {
-            // JSON tidak mengikut bentuk yang dijangka
+            // JSON does not match expected structure
             callback.onError(ErrorType.GENERIC);
             return;
         }
         if (questions.isEmpty()) {
-            // Kod 0 tetapi tiada soalan: kuiz tidak boleh dimulakan
+            // Code 0 but no questions: quiz cannot be started
             callback.onError(ErrorType.GENERIC);
             return;
         }
@@ -133,9 +133,9 @@ public class QuizApi {
 
             JSONArray incorrectJson = item.getJSONArray("incorrect_answers");
             if (incorrectJson.length() != INCORRECT_ANSWER_COUNT) {
-                // QuizActivity mengandaikan tepat 4 pilihan (4 butang); lebih selamat tolak
-                // data yang pelik daripada ranap semasa memaparkan butang.
-                throw new JSONException("Dijangka " + INCORRECT_ANSWER_COUNT + " jawapan salah");
+                // QuizActivity assumes exactly 4 choices (4 buttons); safer to reject
+                // malformed data than crash when displaying buttons.
+                throw new JSONException("Expected " + INCORRECT_ANSWER_COUNT + " incorrect answers");
             }
             List<String> incorrect = new ArrayList<>();
             for (int j = 0; j < incorrectJson.length(); j++) {
@@ -161,9 +161,9 @@ public class QuizApi {
         }
     }
 
-    /** Permintaan gagal sebelum JSON sempat dibaca (rangkaian atau HTTP error). */
+    /** Request failed before JSON could be read (network or HTTP error). */
     private static ErrorType errorFromVolley(VolleyError error) {
-        // Open Trivia DB pulangkan rate limit sebagai HTTP 429, bukan JSON dengan kod 5.
+        // Open Trivia DB returns rate limit as HTTP 429, not JSON with code 5.
         if (error.networkResponse != null
                 && error.networkResponse.statusCode == HTTP_TOO_MANY_REQUESTS) {
             return ErrorType.RATE_LIMIT;

@@ -15,6 +15,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.os.BundleCompat;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.core.view.WindowInsetsControllerCompat;
 import androidx.databinding.DataBindingUtil;
 
 import com.example.smarttriviahub.databinding.ActivityQuizBinding;
@@ -28,30 +29,30 @@ public class QuizActivity extends AppCompatActivity {
 
     private static final String TAG = "QuizActivity";
 
-    // Key untuk onSaveInstanceState / onRestoreInstanceState
+    // Keys for onSaveInstanceState / onRestoreInstanceState
     private static final String STATE_QUESTIONS = "state_questions";
     private static final String STATE_INDEX = "state_index";
     private static final String STATE_SCORE = "state_score";
     private static final String STATE_ERROR = "state_error";
 
-    // Digunakan hanya jika Intent tiada extras (contoh: dibuka tanpa melalui MainActivity)
+    // Used only if Intent has no extras (e.g. opened without going through MainActivity)
     private static final int DEFAULT_CATEGORY_ID = 18;
     private static final String DEFAULT_DIFFICULTY = "medium";
 
     private ActivityQuizBinding binding;
     private MaterialButton[] optionButtons;
 
-    // Data dari MainActivity (melalui Intent)
+    // Data from MainActivity (via Intent)
     private String name;
     private int categoryId;
     private String categoryName;
     private String difficulty;
 
-    // Keadaan kuiz. SEMUA ini disimpan dalam onSaveInstanceState.
-    private ArrayList<Question> questions;     // null selagi soalan belum berjaya diambil
-    private int currentIndex = 0;              // indeks soalan semasa (0-9)
+    // Quiz state. ALL of these are saved in onSaveInstanceState.
+    private ArrayList<Question> questions;     // null until questions are successfully fetched
+    private int currentIndex = 0;              // current question index (0-9)
     private int score = 0;
-    private QuizApi.ErrorType errorType;       // null jika tiada ralat
+    private QuizApi.ErrorType errorType;       // null if no error
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,13 +66,17 @@ public class QuizActivity extends AppCompatActivity {
             return insets;
         });
 
+        WindowInsetsControllerCompat controller = new WindowInsetsControllerCompat(getWindow(), binding.getRoot());
+        controller.setAppearanceLightStatusBars(false);
+        controller.setAppearanceLightNavigationBars(false);
+
         readExtras();
 
-        // Empat butang pilihan dikumpul dalam satu array supaya boleh diproses dengan gelung.
+        // Four option buttons collected in an array so they can be processed in a loop.
         optionButtons = new MaterialButton[]{
                 binding.btnOption1, binding.btnOption2, binding.btnOption3, binding.btnOption4};
         for (int i = 0; i < optionButtons.length; i++) {
-            final int position = i;   // kedudukan butang yang ditekan
+            final int position = i;   // clicked button position
             optionButtons[i].setOnClickListener(v -> onOptionClicked(position));
         }
         binding.btnNext.setOnClickListener(v -> onNextClicked());
@@ -79,14 +84,14 @@ public class QuizActivity extends AppCompatActivity {
 
         showLoading();
         if (savedInstanceState == null) {
-            // Kali pertama activity dibuka: ambil soalan.
-            // Jika savedInstanceState TIDAK null, activity sedang dicipta semula (contoh: skrin
-            // diputar) dan onRestoreInstanceState() akan memulihkan keadaan tanpa fetch semula.
+            // First time activity is opened: fetch questions.
+            // If savedInstanceState is NOT null, activity is being recreated (e.g. screen rotated)
+            // and onRestoreInstanceState() will restore state without re-fetching.
             startFetch();
         }
     }
 
-    /** Baca data yang dihantar oleh MainActivity. */
+    /** Read data sent by MainActivity. */
     private void readExtras() {
         Intent intent = getIntent();
         name = intent.getStringExtra(Constants.EXTRA_NAME);
@@ -96,7 +101,7 @@ public class QuizActivity extends AppCompatActivity {
         difficulty = extraDifficulty != null ? extraDifficulty : DEFAULT_DIFFICULTY;
     }
 
-    // ---------- Tiga keadaan paparan: loading / ralat / kuiz ----------
+    // ---------- Three view states: loading / error / quiz ----------
 
     private void showLoading() {
         binding.progressLoading.setVisibility(View.VISIBLE);
@@ -120,17 +125,17 @@ public class QuizActivity extends AppCompatActivity {
         renderQuestion();
     }
 
-    // ---------- Ambil soalan ----------
+    // ---------- Fetch questions ----------
 
     private void startFetch() {
-        Log.d(TAG, "startFetch: kategori=" + categoryId + ", tahap=" + difficulty);
+        Log.d(TAG, "startFetch: category=" + categoryId + ", difficulty=" + difficulty);
         errorType = null;
         showLoading();
 
         QuizApi.fetchQuestions(this, categoryId, difficulty, new QuizApi.Callback() {
             @Override
             public void onSuccess(List<Question> result) {
-                // Jika activity sudah dimusnahkan (contoh: diputar semasa loading), abaikan hasil.
+                // If activity is already destroyed (e.g. rotated during loading), ignore result.
                 if (isDestroyed()) {
                     return;
                 }
@@ -150,12 +155,12 @@ public class QuizActivity extends AppCompatActivity {
         });
     }
 
-    // ---------- Paparkan soalan semasa ----------
+    // ---------- Render current question ----------
 
     /**
-     * Melukis semula skrin kuiz berdasarkan keadaan semasa (questions, currentIndex, score).
-     * Dipanggil selepas fetch, selepas menjawab, selepas Seterusnya dan selepas rotation,
-     * jadi paparan sentiasa sepadan dengan data.
+     * Redraws the quiz screen based on current state (questions, currentIndex, score).
+     * Called after fetch, after answering, after Next, and after rotation,
+     * so the UI always matches the data.
      */
     private void renderQuestion() {
         Question question = questions.get(currentIndex);
@@ -171,7 +176,7 @@ public class QuizActivity extends AppCompatActivity {
 
         renderOptions(question);
 
-        // Ikon maklum balas: neutral sehingga pengguna menjawab
+        // Feedback icon: neutral until user answers
         if (!question.isAnswered()) {
             binding.ivFeedback.setImageResource(R.drawable.ic_neutral);
         } else if (question.isCorrect()) {
@@ -180,7 +185,7 @@ public class QuizActivity extends AppCompatActivity {
             binding.ivFeedback.setImageResource(R.drawable.ic_wrong);
         }
 
-        // Butang Seterusnya hanya aktif selepas menjawab; soalan terakhir tukar teksnya.
+        // Next button only enabled after answering; last question changes its text.
         binding.btnNext.setEnabled(question.isAnswered());
         boolean isLast = currentIndex == total - 1;
         binding.btnNext.setText(isLast ? R.string.btn_see_result : R.string.btn_next);
@@ -195,22 +200,22 @@ public class QuizActivity extends AppCompatActivity {
             button.setEnabled(!question.isAnswered());
 
             if (!question.isAnswered()) {
-                // Belum dijawab: rupa biasa
+                // Unanswered: normal appearance
                 styleOption(button, R.color.surface, R.color.text_primary, R.color.primary);
             } else if (option.equals(question.getCorrectAnswer())) {
-                // Jawapan betul sentiasa hijau
+                // Correct answer always green
                 styleOption(button, R.color.correct, R.color.on_primary, R.color.correct);
             } else if (option.equals(question.getUserAnswer())) {
-                // Pilihan pengguna yang salah jadi merah
+                // User's wrong choice turns red
                 styleOption(button, R.color.wrong, R.color.on_primary, R.color.wrong);
             } else {
-                // Pilihan lain dipudarkan
+                // Other options dimmed
                 styleOption(button, R.color.surface, R.color.text_secondary, R.color.progress_track);
             }
         }
     }
 
-    /** Tetapkan warna latar, teks dan garisan butang. Semua warna dari colors.xml. */
+    /** Set background, text, and stroke colors for buttons. All colors from colors.xml. */
     private void styleOption(MaterialButton button, @ColorRes int background,
                              @ColorRes int text, @ColorRes int stroke) {
         button.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(this, background)));
@@ -218,12 +223,12 @@ public class QuizActivity extends AppCompatActivity {
         button.setStrokeColor(ColorStateList.valueOf(ContextCompat.getColor(this, stroke)));
     }
 
-    // ---------- Pengguna menjawab / seterusnya ----------
+    // ---------- User answers / next ----------
 
     private void onOptionClicked(int position) {
         Question question = questions.get(currentIndex);
         if (question.isAnswered()) {
-            return;   // sudah dijawab, abaikan tekanan berganda
+            return;   // already answered, ignore double taps
         }
 
         question.setUserAnswer(question.getOptions().get(position));
@@ -231,7 +236,7 @@ public class QuizActivity extends AppCompatActivity {
             score++;
         }
 
-        renderQuestion();   // lukis semula: warna butang, ikon, skor, butang Seterusnya
+        renderQuestion();   // redraw: button colors, icon, score, Next button
 
         String message = question.isCorrect()
                 ? getString(R.string.msg_correct)
@@ -243,16 +248,16 @@ public class QuizActivity extends AppCompatActivity {
         if (currentIndex < questions.size() - 1) {
             currentIndex++;
             renderQuestion();
-            binding.scrollQuiz.scrollTo(0, 0);   // landscape: kembali ke atas untuk soalan baharu
+            binding.scrollQuiz.scrollTo(0, 0);   // landscape: scroll back to top for new question
         } else {
             finishQuiz();
         }
     }
 
-    /** Soalan terakhir dijawab: hantar keputusan ke ResultActivity. */
+    /** Last question answered: send results to ResultActivity. */
     private void finishQuiz() {
         if (isFinishing()) {
-            return;   // butang ditekan dua kali dengan pantas: hanya hantar ke Result sekali
+            return;   // button double-tapped: only send to Result once
         }
         Intent intent = new Intent(this, ResultActivity.class);
         intent.putExtra(Constants.EXTRA_SCORE, score);
@@ -263,27 +268,27 @@ public class QuizActivity extends AppCompatActivity {
         intent.putExtra(Constants.EXTRA_CATEGORY_NAME, categoryName);
         intent.putExtra(Constants.EXTRA_DIFFICULTY, difficulty);
         startActivity(intent);
-        finish();   // kuiz sudah tamat: butang Back dari Result tidak kembali ke soalan terakhir
+        finish();   // quiz ended: Back from Result does not return to last question
     }
 
-    // ---------- Rotation: simpan dan pulihkan keadaan ----------
+    // ---------- Rotation: save and restore state ----------
 
     /**
-     * Dipanggil sebelum activity dimusnahkan (termasuk semasa skrin diputar).
-     * Kita simpan semua keadaan kuiz dalam Bundle.
+     * Called before activity is destroyed (including screen rotation).
+     * We save all quiz state in the Bundle.
      */
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putSerializable(STATE_QUESTIONS, questions);   // termasuk jawapan pengguna
+        outState.putSerializable(STATE_QUESTIONS, questions);   // including user answers
         outState.putInt(STATE_INDEX, currentIndex);
         outState.putInt(STATE_SCORE, score);
         outState.putSerializable(STATE_ERROR, errorType);
     }
 
     /**
-     * Dipanggil selepas onStart() apabila activity dicipta semula dengan Bundle yang disimpan.
-     * Pulihkan keadaan dan lukis semula skrin yang sama, TANPA fetch API.
+     * Called after onStart() when activity is recreated with a saved Bundle.
+     * Restore state and redraw the same screen, WITHOUT fetching API again.
      */
     @SuppressWarnings("unchecked")
     @Override
@@ -301,8 +306,8 @@ public class QuizActivity extends AppCompatActivity {
         } else if (errorType != null) {
             showError(errorType);
         } else {
-            // Diputar semasa masih loading: permintaan lama hilang bersama activity lama,
-            // jadi kita perlu ambil semula.
+            // Rotated while still loading: old request lost with old activity,
+            // so we need to fetch again.
             startFetch();
         }
     }

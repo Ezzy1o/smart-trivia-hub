@@ -3,22 +3,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Landscape: dua lajur. Kiri = ringkasan + butang (dipusatkan menegak dengan
-         vertical chain "packed"). Kanan = breakdown setinggi skrin, boleh scroll.
-         Sebabnya: dalam satu lajur, ringkasan makan hampir semua ketinggian skrin pendek
-         dan breakdown tinggal beberapa baris sahaja.
-         ID mesti sama dengan layout/activity_result.xml. -->
-    <!-- Jidar 16dp diletakkan pada kontena DALAM, bukan root: ResultActivity memanggil
-         setPadding() pada root untuk inset bar sistem dan itu menggantikan padding root. -->
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ResultActivity">
 
+        <com.example.smarttriviahub.MatrixRainView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="16dp">
+            android:padding="16dp"
+            android:background="@android:color/transparent">
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline_split"
@@ -38,7 +36,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_chainStyle="packed"
-                tools:text="Tahniah, Ali!" />
+                tools:text="Congratulations, Ali!" />
 
             <TextView
                 android:id="@+id/tv_percentage"
@@ -65,7 +63,7 @@
                 app:layout_constraintEnd_toStartOf="@id/guideline_split"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_percentage"
-                tools:text="Cemerlang" />
+                tools:text="Excellent" />
 
             <TextView
                 android:id="@+id/tv_correct_count"
@@ -80,7 +78,7 @@
                 app:layout_constraintHorizontal_chainStyle="spread"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_performance_label"
-                tools:text="Betul: 8" />
+                tools:text="Correct: 8" />
 
             <TextView
                 android:id="@+id/tv_wrong_count"
@@ -92,7 +90,7 @@
                 app:layout_constraintBaseline_toBaselineOf="@id/tv_correct_count"
                 app:layout_constraintEnd_toStartOf="@id/guideline_split"
                 app:layout_constraintStart_toEndOf="@id/tv_correct_count"
-                tools:text="Salah: 2" />
+                tools:text="Incorrect: 2" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_try_again"
@@ -126,6 +124,7 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginStart="16dp"
+                android:background="@android:color/transparent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@id/guideline_split"
@@ -139,5 +138,5 @@
             </ScrollView>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </FrameLayout>
 </layout>
