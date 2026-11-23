@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Satu kad breakdown. ResultActivity inflate satu untuk setiap soalan dan tambah
-         ke layout_breakdown. Teks soalan dibungkus (wrap) ke baris seterusnya. -->
+    <!-- Single breakdown card. ResultActivity inflates one for each question and adds to layout_breakdown. -->
     <com.google.android.material.card.MaterialCardView
         style="?attr/materialCardViewOutlinedStyle"
         android:layout_width="match_parent"
@@ -65,7 +64,7 @@
                 app:layout_constraintEnd_toEndOf="@id/tv_item_question"
                 app:layout_constraintStart_toStartOf="@id/tv_item_question"
                 app:layout_constraintTop_toBottomOf="@id/tv_item_question"
-                tools:text="Jawapan anda: HTML" />
+                tools:text="Your answer: HTML" />
 
             <TextView
                 android:id="@+id/tv_item_correct_answer"
@@ -77,7 +76,7 @@
                 app:layout_constraintEnd_toEndOf="@id/tv_item_question"
                 app:layout_constraintStart_toStartOf="@id/tv_item_question"
                 app:layout_constraintTop_toBottomOf="@id/tv_item_your_answer"
-                tools:text="Jawapan betul: CSS" />
+                tools:text="Correct answer: CSS" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
